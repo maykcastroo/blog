@@ -1,0 +1,63 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('{{ post.image.url }}')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="post-heading">
+              <h1>{{ post.title }}</h1>
+              <h2 class="subheading">{{post.subtitle}}</h2>
+              <span class="meta">
+              
+              <br>
+              {% if post.published_date %}
+              Posted by
+                <a href="#">{{ post.author.username }}</a>
+                on {{ post.published_date }}
+              {% else %}
+              <a href="{% url 'post_publish' pk=post.pk %}">Publish Post</a>
+              {% endif %}
+
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- Post Content -->
+    <article>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <p> {{ post.text|linebreaksbr }} </p>
+
+            <hr>
+            <div class="post-preview">
+            {% for tag1 in post.tags.all %}
+                <a href="{% url 'post_filter' tag=tag1.name %}" class="post-meta"> {{tag1.name}}  </a>
+              {% endfor %}
+            </div>
+            <br>
+
+            {% if post.published_date %}
+            
+            <div class="fb-like" data-href="{{ request.build_absolute_uri }}" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+
+            <br>
+
+            <div class="fb-comments" data-href="{{ request.build_absolute_uri }}" data-numposts="5"></div>
+            
+            {% endif %}
+           
+           </div>
+        </div>
+      </div>
+    </article>
+
+{% endblock %}

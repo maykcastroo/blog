@@ -1,0 +1,67 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('{% static 'img/edit-post.jpg' %}')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="page-heading">
+              <h1>New Post</h1>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+    <div class="container">
+    	<div class="row">
+    		<div class="col-lg-8 col-md-10 mx-auto">
+    			<form method="POST" name="sentMessage" id="contactForm" enctype="multipart/form-data">
+    			
+    			{% csrf_token %}
+    			{{ form.errors }}
+            	{% for field in form %}
+            	
+            	<div class="control-group">
+              		<div class="form-group floating-label-form-group controls">
+              			<label>{{field.label_tag}}</label>
+            			
+            			{% if field.label.lower == "text" %}
+
+                        <textarea rows="10" class="form-control" placeholder="{{field.label}}" id= "{{field.id.lower}}" name = "{{field.name.lower}}"></textarea>
+                			
+                		{% elif field.label.lower == "image" %}
+
+                		<input type="file" class="form-control" placeholder="{{field.label}}" id= "{{field.id.lower}}" name = "{{field.name.lower}}"></textarea>
+
+                		{% else %}
+
+                		<input type="text" class="form-control" placeholder="{{field.label}}" id="{{field.id.lower}}" name = "{{field.name.lower}}" data-role="tagsinput">
+                			
+
+                		{% endif %}
+                			
+                		<p class="help-block text-danger"></p>
+              		</div>
+            	</div>
+            	
+            	{% endfor %}
+            
+            	<br>
+            	
+            	<div id="success"></div>
+            	<div class="form-group">
+              		<button type="submit" class="btn btn-primary" id="sendMessageButton">Send</button>
+            	</div>
+    			
+    			</form>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
